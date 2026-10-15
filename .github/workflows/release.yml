@@ -1,0 +1,26 @@
+
+name: Telemetry CI
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-push:
+    uses: devops-lavlesh/axion-ci-templates/.github/workflows/build-push-template.yml@main
+
+    with:
+      service: axion-telemetry-query-service
+      image_tag: ${{ github.sha }}
+      acr_name: ${{ vars.ACR_NAME }}
+
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
